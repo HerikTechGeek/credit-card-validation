@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Card Validator</title>
+    <style>
+        body {
+            font-family: sans-serif, Arial;
+        }
+
+        pre {
+            background: #eee;
+            border: 1px solid #ccc;
+            padding: .6rem;
+            margin-top: 0;
+        }
+
+        h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        input {
+            width: 100%;
+            padding: .6rem;
+            margin: .3rem 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<input id="txtCardNumber" placeholder="Enter Card Number Eg: 4242 (repeat 4 times)" type="text"/>
+<h4>IS VALID</h4>
+<pre id="isValid"></pre>
+
+<h4>CARD TYPE</h4>
+<pre id="cardType"></pre>
+
+<script src="js/cardHelper.js"></script>
+<script>
+	// https://github.com/HerikTechGeek/credit-card-validation.git
+
+			window.onload = () => {
+		const cardTypeOutput = document.getElementById('cardType'),
+			isValidOutput = document.getElementById('isValid'),
+			txtCardNumber = document.getElementById('txtCardNumber'),
+			jsStr = obj => JSON.stringify(obj, null, '  ');
+
+		const validateCard = (issuer => e => {
+			const value = e && e.target.value || '';
+			issuer = CardHelper.getCardIssuer(value);
+			isValid = CardHelper.isValid(value);
+			txtCardNumber.maxLength = issuer.length;
+			cardTypeOutput.innerText = jsStr(issuer);
+			isValidOutput.innerText = !!isValid;
+		})(false);
+
+		validateCard(txtCardNumber.value);
+		txtCardNumber.onkeyup = e => validateCard(e);
+	};
+</script>
+
+</body>
+</html>
